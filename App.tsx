@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { MyDietProvider } from "./src/Provider/DietProvider";
+import { ToggleChartProvider } from "./src/Provider/ToggleChartProvider";
+import { RootSiblingParent } from "react-native-root-siblings";
+import { MyLoginProvider } from "./src/Provider/LoginProvider";
+import Main from "./src/Main";
+//import {startNetworkLogging} from 'react-native-network-logger';
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <RootSiblingParent>
+      <MyLoginProvider>
+        <MyDietProvider>
+          <ToggleChartProvider>
+            <Main />
+          </ToggleChartProvider>
+        </MyDietProvider>
+      </MyLoginProvider>
+    </RootSiblingParent>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

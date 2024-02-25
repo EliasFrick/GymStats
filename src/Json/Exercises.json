@@ -1,0 +1,18 @@
+{
+    "Push": [
+        {
+            "Exercises": ["benchPress", "chestPress", "inclineBarbell", "inclineDumbbell", "flysOben", "flysUnten", "dipsActive", " militaryPress", "shoulderPress", "sideRaise", "tricepsPush", "katanaExtensions", "TricepsOverHead"]
+        }
+    ],
+    "Pull": [
+        {
+            "Exercises": ["pullDown", "pullUp", "tbar", "tightRowing", "barbellRow", "Deadlift", "highRow", " facePulls", "reverseFlys", "pullOver", "szCurls", "preacherCurls", "faceAwayCurls", "spiderCurls", "hammerCurls", "underamCurlsInside", "underamCurlsOutside"]
+        }
+    ],
+    "Leg": [
+        {
+            "Exercises": ["squats", "hackSquat", "thighCurl", "romanianDeadlift", "Deadlift", "legPress", "calfRaiseUnderLegPress", " adductor", "legExtensions", "abdominalMachine"]
+        }
+    ]
+  }
+  
