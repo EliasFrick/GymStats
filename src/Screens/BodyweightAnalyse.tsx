@@ -64,7 +64,6 @@ const BodyweightAnalyse: React.FC<Props> = ({navigation}) => {
             fetchDiet[i] = tempDoc[i].data;
         }
         if (fetchDiet) {
-            console.log("Data: " + fetchDiet)
             setDietWeightData(fetchDiet);
         } else {
             console.log("data nicht vorhanden");
@@ -87,12 +86,10 @@ const BodyweightAnalyse: React.FC<Props> = ({navigation}) => {
         }
         if (fetchBulk) {
             setBulkWeightData(fetchBulk);
-            console.log(bulkWeightData[0])
 
         } else {
             console.log("data nicht vorhanden");
         }
-
         return tempDoc;
     };
 

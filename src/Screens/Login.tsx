@@ -25,8 +25,6 @@ type Props = {
 };
 
 const Login: React.FC<Props> = ({ navigation }) => {
-  // firebaseMain.delete().then(r => console.log(r))
-
   const {
     loggedIn,
     email,
@@ -49,56 +47,13 @@ const Login: React.FC<Props> = ({ navigation }) => {
     try {
       await signInWithEmailAndPassword(authMain, loginEmail, password);
       setLoggedIn(true);
-      await getUsername();
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    firebaseMain.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        setLoggedIn(true);
-        getUsername().then((r) => console.log(r));
-      } else {
-      }
-    });
-  });
-
-  const searchForLoggedInUser = () => {
-    firebaseMain.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-        console.log("user found: " + user);
-      } else {
-        // No user is signed in.
-        console.log("Found no User");
-      }
-    });
-    console.log("login");
-  };
-
   const navigateToRegister = () => {
     navigation.navigate("RegisterPage");
-  };
-
-  const getUsername = async () => {
-    const userID = firebaseMain.auth().currentUser?.uid;
-
-    const assistance = firebaseUser.firestore().collection("User");
-    const querySnapshot = await assistance
-      .orderBy("timestampField", "asc")
-      .get();
-    const tempDoc = querySnapshot.docs.map((doc: any) => {
-      return { id: doc.id, ...doc.data() };
-    });
-
-    for (let i = 0; i < tempDoc.length; i++) {
-      if (tempDoc[i].userID === userID) {
-        setUsername(tempDoc[i].username);
-        console.log(username);
-      }
-    }
   };
 
   return (

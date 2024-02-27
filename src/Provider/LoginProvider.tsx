@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
+// @ts-ignore
 import {AppleAuthenticationFullName} from "expo-apple-authentication/src/AppleAuthentication.types";
 
 // Definition der Kontext-Props

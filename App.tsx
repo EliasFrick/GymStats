@@ -3,10 +3,15 @@ import { ToggleChartProvider } from "./src/Provider/ToggleChartProvider";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { MyLoginProvider } from "./src/Provider/LoginProvider";
 import Main from "./src/Main";
-//import {startNetworkLogging} from 'react-native-network-logger';
-import { NavigationContainer } from "@react-navigation/native";
+import {useEffect} from "react";
 
 export default function App() {
+
+    useEffect(() => {
+
+    }, []);
+
+
   return (
     <RootSiblingParent>
       <MyLoginProvider>
