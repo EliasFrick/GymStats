@@ -42,8 +42,8 @@ const Login: React.FC<Props> = ({ navigation }) => {
   const [user, setUser] = useState<any | null>(null);
 
   const tryLogin = async () => {
-    setPassword("Test7193!");
-    setLoginEmail("Test@Test.de");
+    // setPassword("Test7193!");
+    // setLoginEmail("Test@Test.de");
     try {
       await signInWithEmailAndPassword(authMain, loginEmail, password);
       setLoggedIn(true);

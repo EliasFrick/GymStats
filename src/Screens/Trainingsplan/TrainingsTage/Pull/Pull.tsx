@@ -140,6 +140,7 @@ export default function Pull() {
 
                 setModalVisible(false);
                 ToastMessage("Erfolgreich gespeichert");
+                clearExerciseData();
             } catch (e) {
                 console.log(e);
                 ToastMessage("Fehler beim speichern");
@@ -149,6 +150,20 @@ export default function Pull() {
             ToastMessage("Keine Internetverbindung");
             setModalVisible(false);
         }
+    };
+
+    const clearExerciseData = () => {
+        setExerciseData({
+            exercise: "",
+            time: "",
+            data: [
+                {kg: "", wdh: ""},
+                {kg: "", wdh: ""},
+                {kg: "", wdh: ""},
+                {kg: "", wdh: ""},
+            ],
+            timestampField: firebase.firestore.FieldValue.serverTimestamp(),
+        });
     };
 
     const toggleExercise = (exercise: keyof ExercisePullState) => {
@@ -286,39 +301,39 @@ export default function Pull() {
     const getExerciseNameForDatabase = (exerciseActiveName: string): string => {
         switch (exerciseActiveName) {
             case 'pullDownActive':
-                return 'Bankdrücken';
+                return 'Latzug';
             case 'pullUpActive':
-                return 'chestPress'
+                return 'Klimmzüge'
             case 'tbarActive':
-                return 'inclineBarbell'
+                return 'TBar-Row'
             case 'tightRowingActive':
-                return 'inclineDumbbell'
+                return 'Enges Rudern'
             case 'barbellRowflysObenActive':
-                return 'flysOben'
+                return 'Langhantel Rudern'
             case 'DeadliftActive':
-                return 'flysUnten'
+                return 'Kreuzheben'
             case 'highRowActive':
-                return 'dipsActive'
+                return 'High Row'
             case 'facePullsActive':
-                return 'militaryPress'
+                return 'Face Pulls'
             case 'reverseFlysActive':
-                return 'shoulderPress'
+                return 'Reverse Flys'
             case 'pullOverActive':
-                return 'sideRaise'
+                return 'Überzüge'
             case 'szCurlsActive':
-                return 'tricepsPushPress'
+                return 'SZ Curls'
             case 'preacherCurlsActive':
-                return 'katanaExtensions'
+                return 'Preacher Curls'
             case 'faceAwayCurlsActive':
-                return 'TricepsOverHead'
+                return 'Face-Away Curls'
             case 'spiderCurlsActive':
-                return 'TricepsOverHead'
+                return 'Spider Curls'
             case 'hammerCurlsActive':
-                return 'TricepsOverHead'
+                return 'Hammer Curls'
             case 'underamCurlsInsideActive':
-                return 'TricepsOverHead'
+                return 'Unterarm Curls innen'
             case 'underamCurlsOutsideActive':
-                return 'TricepsOverHead'
+                return 'Unterarm Curls außen'
         }
         return ''
     }
@@ -459,7 +474,7 @@ export default function Pull() {
                         <View style={[styles.addButton, {height: height * 0.05}]}>
                             <CustomButton
                                 title={"+"}
-                                onPress={() => addSet("Langhantel rudern")}
+                                onPress={() => addSet("Langhantel Rudern")}
                             />
                             <CustomButton
                                 title={"Bearbeiten"}
@@ -481,7 +496,7 @@ export default function Pull() {
                         <View style={[styles.addButton, {height: height * 0.05}]}>
                             <CustomButton
                                 title={"+"}
-                                onPress={() => addSet("Flys von Unten")}
+                                onPress={() => addSet("Kreuzheben")}
                             />
                             <CustomButton
                                 title={"Bearbeiten"}
@@ -501,7 +516,7 @@ export default function Pull() {
                     <View style={[styles.lineChart, {height: height * 0.35}]}>
                         <MyLineChart input={highRowData}/>
                         <View style={[styles.addButton, {height: height * 0.05}]}>
-                            <CustomButton title={"+"} onPress={() => addSet("Dips")}/>
+                            <CustomButton title={"+"} onPress={() => addSet("High Row")}/>
                             <CustomButton
                                 title={"Bearbeiten"}
                                 // onPress={navigateToPushInput}
@@ -522,7 +537,7 @@ export default function Pull() {
                         <View style={[styles.addButton, {height: height * 0.05}]}>
                             <CustomButton
                                 title={"+"}
-                                onPress={() => addSet("Military Press")}
+                                onPress={() => addSet("Face Pulls")}
                             />
                             <CustomButton
                                 title={"Bearbeiten"}
@@ -544,7 +559,7 @@ export default function Pull() {
                         <View style={[styles.addButton, {height: height * 0.05}]}>
                             <CustomButton
                                 title={"+"}
-                                onPress={() => addSet("Schulterdrücken")}
+                                onPress={() => addSet("Reverse Flys")}
                             />
                             <CustomButton
                                 title={"Bearbeiten"}
@@ -564,7 +579,7 @@ export default function Pull() {
                     <View style={[styles.lineChart, {height: height * 0.35}]}>
                         <MyLineChart input={pullOverWeightData}/>
                         <View style={[styles.addButton, {height: height * 0.05}]}>
-                            <CustomButton title={"+"} onPress={() => addSet("Seitheben")}/>
+                            <CustomButton title={"+"} onPress={() => addSet("Überzüge")}/>
                             <CustomButton
                                 title={"Bearbeiten"}
                                 // onPress={navigateToPushInput}
@@ -585,7 +600,7 @@ export default function Pull() {
                         <View style={[styles.addButton, {height: height * 0.05}]}>
                             <CustomButton
                                 title={"+"}
-                                onPress={() => addSet("Trizepsdrücken")}
+                                onPress={() => addSet("SZ Curls")}
                             />
                             <CustomButton
                                 title={"Bearbeiten"}
@@ -607,7 +622,7 @@ export default function Pull() {
                         <View style={[styles.addButton, {height: height * 0.05}]}>
                             <CustomButton
                                 title={"+"}
-                                onPress={() => addSet("KatanaExtensions")}
+                                onPress={() => addSet("Preacher Curls")}
                             />
                             <CustomButton
                                 title={"Bearbeiten"}
@@ -631,7 +646,7 @@ export default function Pull() {
                         <View style={[styles.addButton, {height: height * 0.05}]}>
                             <CustomButton
                                 title={"+"}
-                                onPress={() => addSet("TricepsOverHead")}
+                                onPress={() => addSet("Face-Away Curls")}
                             />
                             <CustomButton
                                 title={"Bearbeiten"}
@@ -651,7 +666,7 @@ export default function Pull() {
                     <View style={[styles.lineChart, {height: height * 0.35}]}>
                         <MyLineChart input={spiderCurlsWeightData}/>
                         <View style={[styles.addButton, {height: height * 0.05}]}>
-                            <CustomButton title={"+"} onPress={() => addSet("Bankdrücken")}/>
+                            <CustomButton title={"+"} onPress={() => addSet("Spider Curls")}/>
                             <CustomButton
                                 title={"Bearbeiten"}
                                 // onPress={navigateToPushInput}
@@ -670,7 +685,7 @@ export default function Pull() {
                     <View style={[styles.lineChart, {height: height * 0.35}]}>
                         <MyLineChart input={hammerCurlsWeightData}/>
                         <View style={[styles.addButton, {height: height * 0.05}]}>
-                            <CustomButton title={"+"} onPress={() => addSet("Bankdrücken")}/>
+                            <CustomButton title={"+"} onPress={() => addSet("Hammer Curls")}/>
                             <CustomButton
                                 title={"Bearbeiten"}
                                 // onPress={navigateToPushInput}
@@ -689,7 +704,7 @@ export default function Pull() {
                     <View style={[styles.lineChart, {height: height * 0.35}]}>
                         <MyLineChart input={underamCurlsInsideWeightData}/>
                         <View style={[styles.addButton, {height: height * 0.05}]}>
-                            <CustomButton title={"+"} onPress={() => addSet("Bankdrücken")}/>
+                            <CustomButton title={"+"} onPress={() => addSet("Unterarm Curls innen")}/>
                             <CustomButton
                                 title={"Bearbeiten"}
                                 // onPress={navigateToPushInput}
@@ -708,7 +723,7 @@ export default function Pull() {
                     <View style={[styles.lineChart, {height: height * 0.35}]}>
                         <MyLineChart input={underamCurlsOutsideWeightData}/>
                         <View style={[styles.addButton, {height: height * 0.05}]}>
-                            <CustomButton title={"+"} onPress={() => addSet("Bankdrücken")}/>
+                            <CustomButton title={"+"} onPress={() => addSet("Unterarm Curls außen")}/>
                             <CustomButton
                                 title={"Bearbeiten"}
                                 // onPress={navigateToPushInput}

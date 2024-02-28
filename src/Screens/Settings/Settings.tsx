@@ -64,6 +64,7 @@ const Settings = () => {
     const deleteAccount = () => {
         const user = firebaseMain.auth().currentUser;
         if (user) {
+
             const userID = firebaseMain.auth().currentUser?.uid;
 
             try {

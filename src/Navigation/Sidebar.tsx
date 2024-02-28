@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const userID = firebaseMain.auth().currentUser?.uid;
 
-    if (userID === "dpMSmD80mkZuTH97vDSY42JmIVg2" || userID === "Mpc9BY0SRTMihFx9TLQybWq3F4G2" || userID === '5gNw30cULpgg73q2pzSMykHsrLm1') {
+    if (userID === "dpMSmD80mkZuTH97vDSY42JmIVg2" || userID === 'ihDhSXt6okVneDGdn0fTKM9rWn52') {
       setAdmin(true);
     }
   }, []);

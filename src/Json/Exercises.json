@@ -1,18 +1,17 @@
 {
     "Push": [
         {
-            "Exercises": ["benchPress", "chestPress", "inclineBarbell", "inclineDumbbell", "flysOben", "flysUnten", "dipsActive", " militaryPress", "shoulderPress", "sideRaise", "tricepsPush", "katanaExtensions", "TricepsOverHead"]
+            "Exercises": ["Bankdrücken", "Brustpresse", "Schrägbankdrücken Langhantel", "Schrägbankdrücken Kurzhantel", "Flys von oben", "Flys von unten", "Dips", "Military Press", "Schulterpresse", "Seitheben", "Trizeps strecken", "katanaExtensions", "Trizeps über Kopf"]
         }
     ],
     "Pull": [
         {
-            "Exercises": ["pullDown", "pullUp", "tbar", "tightRowing", "barbellRow", "Deadlift", "highRow", " facePulls", "reverseFlys", "pullOver", "szCurls", "preacherCurls", "faceAwayCurls", "spiderCurls", "hammerCurls", "underamCurlsInside", "underamCurlsOutside"]
+            "Exercises": ["Latzug", "Klimmzüge", "TBar-Row", "Enges Rudern", "Langhantel Rudern", "Kreuzheben", "High Row", "Face Pulls", "Reverse Flys", "Überzüge", "SZ Curls", "Preacher Curls", "Face-Away Curls", "Spider Curls", "Hammer Curls", "Unterarm Curls innen", "Unterarm Curls außen"]
         }
     ],
     "Leg": [
         {
-            "Exercises": ["squats", "hackSquat", "thighCurl", "romanianDeadlift", "Deadlift", "legPress", "calfRaiseUnderLegPress", " adductor", "legExtensions", "abdominalMachine"]
+            "Exercises": ["Squats", "Hack Squat", "Beinbeuger", "Romanian Deadlift", "Kreuzheben", "Beinpresse", "Wadenpresse", "Adduktoren", "Beinstrecker", "Bauchmaschine"]
         }
     ]
   }
-  

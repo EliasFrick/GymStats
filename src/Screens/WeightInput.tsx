@@ -224,17 +224,12 @@ export default function WeightInput() {
     return tempDoc;
   };
 
-  const testInput = () => {
-    console.log("Test");
-  };
-
   return (
     <KeyboardAvoidingView
       // @ts-ignore
       behavior={"behaviour"}
       style={styles.container}
     >
-      {/*<View style={[styles.container]}>*/}
       <View style={styles.EingabeContainer}>
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={2} ellipsizeMode={"tail"}>
@@ -262,7 +257,6 @@ export default function WeightInput() {
           </TouchableOpacity>
         </View>
       </View>
-      {/*</View>*/}
     </KeyboardAvoidingView>
   );
 }
@@ -297,7 +291,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   titleContainer: {
-    flex: 0.15,
+    flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
     marginTop: "10%",
