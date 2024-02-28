@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import {StyleSheet, Text, useWindowDimensions, View} from "react-native";
 import CustomButton from "../../CustomComponents/ChooseTrainDay";
 import {authMain, firebaseMain} from "../../Database/firebaseConfig";
 import {useMyLoginContext} from "../../Provider/LoginProvider";
 import {firebaseUser} from "../../Database/firebaseConfig-User";
-import {firebasePush} from "../../Database/firebaseConfig-Push";
-import {firebasePull} from "../../Database/firebaseConfig-Pull";
-import {firebaseLeg} from "../../Database/firebaseConfig-Leg";
+import {firebasePull, firestorePull} from "../../Database/firebaseConfig-Pull";
 import firebase from "firebase/compat/app";
+import {TrainWeightSaver} from "../../Class/SaveTrainData";
+import ToastMessage from "../../Functions/ToastMessage";
+import {firestorePush} from "../../Database/firebaseConfig-Push";
+import {firestoreLeg} from "../../Database/firebaseConfig-Leg";
 
 
 const Settings = () => {
@@ -22,6 +24,18 @@ const Settings = () => {
         setUsername,
         setEmail,
     } = useMyLoginContext();
+    const [exerciseData, setExerciseData] = useState({
+        exercise: "",
+        time: "",
+        data: [
+            {kg: "", wdh: ""},
+            {kg: "", wdh: ""},
+            {kg: "", wdh: ""},
+            {kg: "", wdh: ""},
+        ],
+        timestampField: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    const todoRefForUser = firebasePull.firestore().collection(username);
 
     const handleSignOut = () => {
         authMain.signOut().then(() => {
@@ -33,70 +47,61 @@ const Settings = () => {
             });
     };
 
-    const deleteCollection = async (collectionPath: string) => {
-        try {
-            const collectionRef = firebasePush.firestore().collection(collectionPath);
-            const querySnapshot = await collectionRef.get();
+    const deleteCollections = async () => {
+        const qryPush: firebase.firestore.QuerySnapshot = await firestorePush.collection(username).get();
+        console.log(JSON.stringify(qryPush))
+        const qryPull: firebase.firestore.QuerySnapshot = await firestorePull.collection(username).get();
+        console.log(JSON.stringify(qryPull))
+        const qryLeg: firebase.firestore.QuerySnapshot = await firestoreLeg.collection(username).get();
+        console.log(JSON.stringify(qryLeg))
 
-            querySnapshot.forEach((documentSnapshot) => {
-                documentSnapshot.ref.delete();
-            });
+        // You can use the QuerySnapshot above like in the example i linked
+        let i = 0
+        qryPush.forEach(async doc => {
+            console.log("Start delete")
+            await doc.ref.delete();
+            console.log("Finish delete")
+        });
 
-            console.log('Alle Dokumente in der Sammlung gelöscht.');
+        i = 0
+        qryPull.forEach(doc => {
+            console.log(i + ": " + JSON.stringify(doc))
+            i++
+            doc.ref.delete();
+        });
 
-            // Jetzt löschen wir die Sammlung selbst
-            await firebasePush.firestore().collection(collectionPath).parent.doc(collectionRef.id).delete();
-            console.log('Die Sammlung wurde gelöscht.');
-        } catch (error) {
-            console.error('Fehler beim Löschen der Sammlung:', error);
-        }
-    }
-
-
-    const deleteAllAccountDBInformations = async (collection: firebase.firestore.CollectionReference, dataBaseName: string) => {
-        collection.get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                doc.ref.delete();
-            });
+        i = 0
+        qryLeg.forEach(doc => {
+            console.log(i + ": " + JSON.stringify(doc))
+            i++
+            doc.ref.delete();
         });
     }
 
     const deleteAccount = () => {
         const user = firebaseMain.auth().currentUser;
         if (user) {
-
             const userID = firebaseMain.auth().currentUser?.uid;
-
             try {
-                user.delete().then(async () => {
+                console.log(user)
+                user
+                    .delete()
+                    .then(async () => {
+                        console.log("username: " + username)
 
-                    console.log("UID: " + userID)
-                    console.log("username: " + username)
-                    const userDB = firebaseUser.firestore().collection("User").doc(userID);
-                    firebasePush.firestore().collection(username).get().then((querySnapshot) => {
-                        querySnapshot.forEach((doc) => {
-                            doc.ref.delete();
-                        });
-                    });
-                    const pullDB = firebasePull.firestore().collection(username);
-                    const legDB = firebaseLeg.firestore().collection(username);
+                        const userDB = firebaseUser.firestore().collection("User").doc(userID);
+                        console.log("userDB: " + userDB)
 
-                    console.log("try PushDB Löschen")
-                    // await deleteAllAccountDBInformations(pushDB, "Push")
-                    console.log("PushDB gelöscht")
-                    console.log("Try PullDB löschen")
-                    await deleteAllAccountDBInformations(pullDB, "Pull")
-                    console.log("Pull gelöscht")
-                    console.log("try Leg Löschen")
-                    await deleteAllAccountDBInformations(legDB, "Leg")
-                    console.log("LegDB gelöscht")
+                        await deleteCollections()
 
-                    await userDB.delete();
+                        await userDB.delete();
 
-                    setLoggedIn(false)
-                    console.log("Account gelöscht")
-                }).catch((error) => {
+                        setLoggedIn(false)
+                        console.log("Account gelöscht")
+                        ToastMessage("Account gelöscht")
+                    }).catch((error) => {
                     // An error occurred
+                    ToastMessage("Fehler beim löschen: " + error)
                 });
             } catch (error) {
                 console.log("Fehler: " + error)

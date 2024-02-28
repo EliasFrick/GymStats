@@ -1,25 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-//Import Screens
-import { Pressable, StyleSheet, useWindowDimensions } from "react-native";
-import BodyweightAnalyse from "../Screens/BodyweightAnalyse";
+import { StyleSheet, useWindowDimensions } from "react-native";
 import WeightInput from "../Screens/WeightInput";
-// @ts-ignore
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-// @ts-ignore
-// import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChooseAnalyseDayScreen, {
   TBodyweightAnalysePage,
   ChooseTrainingsDay,
 } from "./ChooseStackScreen";
-import { useNavigation } from "@react-navigation/native";
-import Settings from "../Screens/Settings/Settings";
 import { authMain, firebaseMain } from "../Database/firebaseConfig";
-import { useMyLoginContext } from "../Provider/LoginProvider";
-import {StackNavigationProp} from "@react-navigation/stack";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,16 +19,10 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const userID = firebaseMain.auth().currentUser?.uid;
 
-    if (userID === "dpMSmD80mkZuTH97vDSY42JmIVg2" || userID === 'ihDhSXt6okVneDGdn0fTKM9rWn52') {
+    if (userID === "dpMSmD80mkZuTH97vDSY42JmIVg2" || userID === 'eNP7b4ymLOUvVMx0hSrGp62mQ242') {
       setAdmin(true);
     }
   }, []);
-
-    const handleSignOut = () => {
-        authMain.signOut().then(() => {
-            // setLoggedIn(false);
-        });
-    };
 
   const { height, width, scale, fontScale } = useWindowDimensions();
 
@@ -103,13 +87,3 @@ const Sidebar: React.FC = () => {
 };
 
 export default Sidebar;
-
-const styles = StyleSheet.create({
-  iconContainer: {
-    width: "8%", // anpassen, je nachdem wie breit das Icon sein soll
-    alignItems: "flex-start",
-  },
-  topBackStyle: {
-    backgroundColor: "#242527",
-  },
-});

@@ -113,9 +113,14 @@ export default function Pull() {
         });
     };
 
+    const test = () => {
+        console.log(username)
+    }
+
     const safePopUpMenu = async (currentExercise: string) => {
         if (checkConnection) {
             try {
+
                 const currentDate = new Date();
                 const currentYear = currentDate.getFullYear();
                 const currentMonth = currentDate.getMonth() + 1;
