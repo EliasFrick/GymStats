@@ -55,7 +55,6 @@ const Settings = () => {
         const qryLeg: firebase.firestore.QuerySnapshot = await firestoreLeg.collection(username).get();
         console.log(JSON.stringify(qryLeg))
 
-        // You can use the QuerySnapshot above like in the example i linked
         let i = 0
         qryPush.forEach(async doc => {
             console.log("Start delete")
