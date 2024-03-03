@@ -16,7 +16,7 @@ export class TrainWeightSaver {
 
     async saveDataToFirebase(): Promise<ITrainWeightSaver> {
             try {
-                console.log(this.currentExercise)
+                //console.log(this.currentExercise)
                 await this.todoRefForUser.doc(this.currentExercise).collection(this.currentExercise).add(this.data);
 
                 ToastMessage("Erfolgreich gespeichert");
