@@ -19,7 +19,10 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const userID = firebaseMain.auth().currentUser?.uid;
 
-    if (userID === "dpMSmD80mkZuTH97vDSY42JmIVg2" || userID === 'eNP7b4ymLOUvVMx0hSrGp62mQ242') {
+    if (
+      userID === "ihDhSXt6okVneDGdn0fTKM9rWn52" ||
+      userID === "eNP7b4ymLOUvVMx0hSrGp62mQ242"
+    ) {
       setAdmin(true);
     }
   }, []);
@@ -75,12 +78,10 @@ const Sidebar: React.FC = () => {
         {admin && (
           <Tab.Screen name="Körpergewichteingabe" component={WeightInput} />
         )}
-        {admin && (
-          <Tab.Screen
-            name="BodyweightAnalyse"
-            component={TBodyweightAnalysePage}
-          />
-        )}
+        <Tab.Screen
+          name="BodyweightAnalyse"
+          component={TBodyweightAnalysePage}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
