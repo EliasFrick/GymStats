@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => {
 
     if (
       userID === "ihDhSXt6okVneDGdn0fTKM9rWn52" ||
-      userID === "eNP7b4ymLOUvVMx0hSrGp62mQ242"
+      userID === "mtAABzwO1vVotymtUypz98mfaMc2"
     ) {
       setAdmin(true);
     }

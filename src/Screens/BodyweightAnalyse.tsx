@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Pressable, StyleSheet, Text, useWindowDimensions, View,} from "react-native";
+import {Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View,} from "react-native";
 import MyLineChart from "../Components/LineChart";
 import {firebaseMain} from "../Database/firebaseConfig";
 import {moderateScale} from "react-native-size-matters";
@@ -8,9 +8,7 @@ import {useMyContext} from "../Provider/ToggleChartProvider";
 import {useMyLoginContext} from "../Provider/LoginProvider";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {TBodyweightAnalysePage} from "../Types/StackScreens";
-import {useNavigation} from '@react-navigation/native';
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
 
 type ChooseBlogScreen = StackNavigationProp<
     TBodyweightAnalysePage,
@@ -141,53 +139,54 @@ const BodyweightAnalyse: React.FC<Props> = ({navigation}) => {
     };
 
 
-
     return (
         <View style={styles.container}>
-            <View style={styles.topBar}>
-                <Pressable onPress={navigateToSettingsPage}>
-                    <Ionicons
-                        style={{marginRight: width * 0.03}}
-                        name={"settings"}
-                        size={40}
-                    />
-                </Pressable>
-            </View>
-            <View style={styles.lineChartContainer}>
-                {toggleAverage && (
-                    <View style={[styles.chartContainer]}>
-                        <Text style={styles.currentWeightText}>
-                            {username} Aktuelles Gewicht:{" "}
-                            {bodyWeightData[bodyWeightData.length - 1]}
-                        </Text>
-                        <View style={[{marginTop: lineChartHeight}]}>
-                            <MyLineChart input={bodyWeightData}/>
+            <ScrollView style={styles.BackGroundCanvas}>
+                <View style={styles.topBar}>
+                    <Pressable onPress={navigateToSettingsPage}>
+                        <Ionicons
+                            style={{marginRight: width * 0.03}}
+                            name={"settings"}
+                            size={40}
+                        />
+                    </Pressable>
+                </View>
+                <View style={styles.lineChartContainer}>
+                    {toggleAverage && (
+                        <View style={[styles.chartContainer]}>
+                            <Text style={styles.currentWeightText}>
+                                {username} Aktuelles Gewicht:{" "}
+                                {bodyWeightData[bodyWeightData.length - 1]}
+                            </Text>
+                            <View style={[{marginTop: lineChartHeight}]}>
+                                <MyLineChart input={bodyWeightData}/>
 
+                            </View>
                         </View>
-                    </View>
-                )}
-                {toggleBulk && (
-                    <View style={[styles.chartContainer]}>
-                        <Text style={styles.currentWeightText}>
-                            Aktuelles Gewicht: {bodyWeightData[bodyWeightData.length - 1]}
-                        </Text>
-                        <View style={[{marginTop: lineChartHeight}]}>
-                            <MyLineChart input={bulkWeightData} />
+                    )}
+                    {toggleBulk && (
+                        <View style={[styles.chartContainer]}>
+                            <Text style={styles.currentWeightText}>
+                                {username} Aktuelles Gewicht: {bodyWeightData[bodyWeightData.length - 1]}
+                            </Text>
+                            <View style={[{marginTop: lineChartHeight}]}>
+                                <MyLineChart input={bulkWeightData}/>
+                            </View>
                         </View>
-                    </View>
-                )}
-                {toggleDiet && (
-                    <View style={[styles.chartContainer]}>
-                        <Text style={styles.currentWeightText}>
-                            Aktuelles Gewicht: {bodyWeightData[bodyWeightData.length - 1]}
-                        </Text>
-                        <View style={[styles.lineChart, {marginTop: lineChartHeight}]}>
-                            <MyLineChart input={dietWeightData}/>
+                    )}
+                    {toggleDiet && (
+                        <View style={[styles.chartContainer]}>
+                            <Text style={styles.currentWeightText}>
+                                {username} Aktuelles Gewicht: {bodyWeightData[bodyWeightData.length - 1]}
+                            </Text>
+                            <View style={[styles.lineChart, {marginTop: lineChartHeight}]}>
+                                <MyLineChart input={dietWeightData}/>
+                            </View>
                         </View>
-                    </View>
-                )}
-                <ToggleSwitch/>
-            </View>
+                    )}
+                    <ToggleSwitch/>
+                </View>
+            </ScrollView>
         </View>
     );
 };
@@ -198,7 +197,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#2b3340",
-        padding: 15,
+        padding: 20,
     },
     titleContainer: {
         flex: 0.2,
@@ -224,10 +223,16 @@ const styles = StyleSheet.create({
         color: "white",
     },
     lineChart: {},
-    topBar:{
+    topBar: {
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
         marginBottom: 15
-    }
+    },
+    BackGroundCanvas: {
+        flex: 1,
+        backgroundColor: "#2d3b55",
+        padding: 20,
+        borderRadius: 40,
+    },
 });

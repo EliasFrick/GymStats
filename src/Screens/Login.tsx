@@ -17,6 +17,7 @@ import { LoginPage } from "../Types/StackScreens";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authMain, firebaseMain } from "../Database/firebaseConfig";
 import { firebaseUser } from "../Database/firebaseConfig-User";
+import { useHeaderHeight } from '@react-navigation/elements'
 
 type SignIn = StackNavigationProp<LoginPage, "LoginPage">;
 
@@ -58,8 +59,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      // @ts-ignore
-      behavior={"behaviour"}
+      behavior={"padding"}
       style={styles.container}
     >
       <View style={styles.BackGroundCanvas}>
