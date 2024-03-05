@@ -28,10 +28,6 @@ const CustomButton: React.FC<CustomButtonProps> = ({ title, onPress, color = 'bl
 const styles = StyleSheet.create({
     buttonContainer: {
         flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // width: '100%',
-        // marginTop: '10%',
     },
     button: {
         backgroundColor: '#e93359',

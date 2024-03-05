@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {Keyboard, Modal, Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View,} from "react-native";
+import {
+    Keyboard,
+    Modal,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    useWindowDimensions,
+    View
+} from "react-native";
 import CustomButton from "../../CustomComponents/ChooseTrainDay";
 import {authMain, firebaseMain} from "../../Database/firebaseConfig";
 import {useMyLoginContext} from "../../Provider/LoginProvider";
@@ -40,6 +50,8 @@ const Settings = () => {
         useState(false);
     const [nameOfFriend, setNameOfFriend] = useState<any>();
     const [Usernames, setUsernames] = useState<any>()
+    const [allPossibleUsernames, setAllPossibleUsernames] = useState<any>('')
+    const [showPossibleFriendsForAdding, setShowPossibleFriendsForAdding] = useState(false)
 
     useEffect(() => {
         getAllUsernames()
@@ -146,24 +158,73 @@ const Settings = () => {
     };
 
     const searchForFriend = () => {
-        if (checkForFriend(Usernames)) {
-            ToastMessage("Freund gefunden:" + nameOfFriend);
-        } else {
-            ToastMessage("Freund nicht gefunden:" + nameOfFriend);
-        }
-        cancelSearchForFriends();
+        setAllPossibleUsernames(checkForFriend(Usernames))
+        // console.log("Test: " + allPossibleUsernames)
+        // if (checkForFriend(Usernames)) {
+        //     ToastMessage("Freund gefunden:" + nameOfFriend);
+        // } else {
+        //     ToastMessage("Freund nicht gefunden:" + nameOfFriend);
+        // }
+        // cancelSearchForFriends();
     };
 
     const checkForFriend = (username: any) => {
         let foundFriend = false
+        const possibleNames: any[] = [];
+
         for (let i = 0; i < username.length; i++) {
-            if (nameOfFriend.toLowerCase() === username[i].toLowerCase()) {
-                console.log("gefunden")
-                foundFriend = true
+            // if (nameOfFriend.toLowerCase() === username[i].toLowerCase()) {
+            //     console.log("gefunden")
+            //     foundFriend = true
+            // }
+            if (username[i].toLowerCase().includes(nameOfFriend.toLowerCase())) {
+                possibleNames.push(username[i])
+            } else {
             }
         }
-        return foundFriend
+        return possibleNames
     };
+
+
+    interface ShowPossibleFriendsForAddingProps {
+        nameOfFriends: any[]
+    }
+
+    const ShowPossibleFriendsForAdding: React.FC<ShowPossibleFriendsForAddingProps> = ({nameOfFriends}) => {
+        return (
+            <View style={[{width: '100%', marginTop: '10%'}]}>
+                {nameOfFriends.map((item: string, index: number) => (
+                    // <Text style={[{color: 'white'}]} key={index}>{item}</Text>
+                    <AddFriendsContainer index={index} item={item}/>
+                ))}
+            </View>
+        );
+    };
+
+    interface AddFriendsContainerProps {
+        item: string
+        index: number
+    }
+
+    const sendFriendRequest = () => {
+        ToastMessage('Anfrage gesendet')
+        cancelSearchForFriends()
+    }
+
+    const AddFriendsContainer: React.FC<AddFriendsContainerProps> = ({item, index}) => {
+        return (
+            <View style={[styles.addFriendContainerList, {height: height * 0.08, width: width * 0.8}]}>
+                <View style={[styles.addFriendListInnerContainer, {justifyContent: 'space-between'}]}>
+                    <Text style={[styles.addFriendsContainerListText, {fontSize: fontScale * 20}]} key={index}>{item}</Text>
+                    <View style={styles.addFriendContainerListAddIconContainer}>
+                        <Pressable onPress={sendFriendRequest}>
+                            <Ionicons name={"add"} size={30} color={'grey'}/>
+                        </Pressable>
+                    </View>
+                </View>
+            </View>
+        )
+    }
 
     let allUsernames: any[][] = [];
 
@@ -189,6 +250,15 @@ const Settings = () => {
 
         return JSON.stringify(allUsernames)
     };
+
+    useEffect(() => {
+        if (nameOfFriend) {
+            setShowPossibleFriendsForAdding(true)
+        } else {
+            setShowPossibleFriendsForAdding(false)
+            // console.log("Durchgelassen")
+        }
+    }, [allPossibleUsernames]);
 
     return (
         <View style={styles.container}>
@@ -250,7 +320,7 @@ const Settings = () => {
                     setModalVisible(false);
                 }}
             >
-                <View style={styles.modalContainer}>
+                <View style={[styles.modalContainer]}>
                     <Pressable onPress={() => {
                         Keyboard.dismiss()
                     }}>
@@ -266,14 +336,19 @@ const Settings = () => {
                         placeholder={"Username eingeben"}
                         onChangeText={(text) => setNameOfFriend(text)}
                         value={nameOfFriend}
-                        keyboardType="numeric"
                     />
+                    {showPossibleFriendsForAdding && (
+                        <ScrollView>
+                            <ShowPossibleFriendsForAdding nameOfFriends={allPossibleUsernames}/>
+                        </ScrollView>
+                    )}
+
                     <View
                         style={[
                             {
                                 height: height * 0.08,
                                 width: width * 0.8,
-                                marginTop: height * 0.14,
+                                marginBottom: height * 0.2,
                             },
                         ]}
                     >
@@ -310,7 +385,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
+        backgroundColor: "rgba(0, 0, 0, 0.93)",
     },
     modalText: {
         color: "white",
@@ -329,5 +404,27 @@ const styles = StyleSheet.create({
     addFriendContainer: {
         justifyContent: 'flex-start',
         alignItems: 'flex-end',
+    },
+    textForPossibleFriendsForAdding: {
+        color: 'white'
+    },
+    addFriendContainerList: {
+        // flex: 1,
+        borderWidth: 1,
+        borderRadius: 20,
+        borderColor: 'green',
+        marginTop: '5%',
+        width: '100%',
+        justifyContent: 'center'
+    },
+    addFriendsContainerListText: {
+        color: 'white'
+    },
+    addFriendContainerListAddIconContainer: {
+        marginLeft: '30%',
+    },
+    addFriendListInnerContainer: {
+        flexDirection: 'row',
+        paddingHorizontal: 20
     }
 });
