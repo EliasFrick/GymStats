@@ -13,7 +13,7 @@ import {
 import CustomButton from "../../CustomComponents/ChooseTrainDay";
 import {authMain, firebaseMain} from "../../Database/firebaseConfig";
 import {useMyLoginContext} from "../../Provider/LoginProvider";
-import {firebaseUser} from "../../Database/firebaseConfig-User";
+import {firebaseUser, firestoreUser} from "../../Database/firebaseConfig-User";
 import {firebasePull, firestorePull,} from "../../Database/firebaseConfig-Pull";
 import firebase from "firebase/compat/app";
 import ToastMessage from "../../Functions/ToastMessage";
@@ -50,6 +50,8 @@ const Settings = () => {
         useState(false);
     const [nameOfFriend, setNameOfFriend] = useState<any>();
     const [Usernames, setUsernames] = useState<any>()
+    const [userIDs, setUserIDs] = useState<any>()
+    const [existingFriendRequests, setExistingFriendRequests] = useState<any>([])
     const [allPossibleUsernames, setAllPossibleUsernames] = useState<any>('')
     const [showPossibleFriendsForAdding, setShowPossibleFriendsForAdding] = useState(false)
 
@@ -159,26 +161,15 @@ const Settings = () => {
 
     const searchForFriend = () => {
         setAllPossibleUsernames(checkForFriend(Usernames))
-        // console.log("Test: " + allPossibleUsernames)
-        // if (checkForFriend(Usernames)) {
-        //     ToastMessage("Freund gefunden:" + nameOfFriend);
-        // } else {
-        //     ToastMessage("Freund nicht gefunden:" + nameOfFriend);
-        // }
-        // cancelSearchForFriends();
     };
 
-    const checkForFriend = (username: any) => {
+    const checkForFriend = (name: any) => {
         let foundFriend = false
         const possibleNames: any[] = [];
 
-        for (let i = 0; i < username.length; i++) {
-            // if (nameOfFriend.toLowerCase() === username[i].toLowerCase()) {
-            //     console.log("gefunden")
-            //     foundFriend = true
-            // }
-            if (username[i].toLowerCase().includes(nameOfFriend.toLowerCase())) {
-                possibleNames.push(username[i])
+        for (let i = 0; i < name.length; i++) {
+            if (name[i].toLowerCase().includes(nameOfFriend.toLowerCase()) && name[i].toLowerCase() !== username.toLowerCase()) {
+                possibleNames.push(name[i])
             } else {
             }
         }
@@ -206,18 +197,89 @@ const Settings = () => {
         index: number
     }
 
-    const sendFriendRequest = () => {
-        ToastMessage('Anfrage gesendet')
+    const sendFriendRequest = async (usernameForAdding: string) => {
+
+        const userInfos = await getCurrentUserInformations(usernameForAdding)
+
+        const docRef = firestoreUser.collection('User').doc(userInfos.userID)
+
+        const docSnapshot = await docRef.get();
+
+        if (docSnapshot.exists) {
+            const data = docSnapshot.data();
+
+            if (data) {
+
+                let setNewFriendRequestList: any[] = [];
+                setNewFriendRequestList.push(userInfos.existingFriendList)
+
+                console.log("Length: " + setNewFriendRequestList[0])
+
+                if (!setNewFriendRequestList.includes(username)) {
+
+                    if (setNewFriendRequestList[0] === undefined) {
+                        console.log("Bisher keine Anfragen")
+                        data.friendRequests = username;
+
+                        await docRef.set(data);
+                        ToastMessage('Anfrage gesendet')
+                    } else {
+                        console.log("Es existieren schon anfragen")
+
+                        setNewFriendRequestList.push(username)
+
+                        data.friendRequests = setNewFriendRequestList;
+
+                        await docRef.set(data);
+                        ToastMessage('Anfrage gesendet')
+                    }
+                } else {
+                    ToastMessage('Anfrage wurde bereits gesendet')
+                    cancelSearchForFriends()
+                }
+            }
+        } else {
+            ToastMessage('Fehler beim senden');
+        }
         cancelSearchForFriends()
+    }
+
+    const getCurrentUserInformations = async (currentUsername: string) => {
+        let userID = ''
+        let existingFriendRequestList
+
+        const assistance = firebaseUser.firestore().collection("User");
+        const querySnapshot = await assistance
+            .orderBy("timestampField", "asc")
+            .get();
+        const tempDoc = querySnapshot.docs.map((doc: any) => {
+            return {id: doc.id, ...doc.data()};
+        });
+
+
+        for (let i = 0; i < tempDoc.length; i++) {
+            if (tempDoc[i].username.toLowerCase() === currentUsername.toLowerCase()) {
+                userID = tempDoc[i].userID
+                existingFriendRequestList = tempDoc[i].friendRequests
+            }
+        }
+
+        return {
+            userID: userID,
+            existingFriendList: existingFriendRequestList
+        }
     }
 
     const AddFriendsContainer: React.FC<AddFriendsContainerProps> = ({item, index}) => {
         return (
             <View style={[styles.addFriendContainerList, {height: height * 0.08, width: width * 0.8}]}>
                 <View style={[styles.addFriendListInnerContainer, {justifyContent: 'space-between'}]}>
-                    <Text style={[styles.addFriendsContainerListText, {fontSize: fontScale * 20}]} key={index}>{item}</Text>
+                    <Text style={[styles.addFriendsContainerListText, {fontSize: fontScale * 20}]}
+                          key={index}>{item}</Text>
                     <View style={styles.addFriendContainerListAddIconContainer}>
-                        <Pressable onPress={sendFriendRequest}>
+                        <Pressable onPress={() => {
+                            sendFriendRequest(item)
+                        }}>
                             <Ionicons name={"add"} size={30} color={'grey'}/>
                         </Pressable>
                     </View>
@@ -227,6 +289,7 @@ const Settings = () => {
     }
 
     let allUsernames: any[][] = [];
+    let allUserIDs: any[][] = [];
 
     const getAllUsernames = async () => {
         const querySnapshot = await firebaseUser
@@ -240,13 +303,16 @@ const Settings = () => {
 
         for (let i = 0; i < tempDoc.length; i++) {
             allUsernames[i] = [];
+            allUserIDs[i] = [];
         }
 
         for (let i = 0; i < tempDoc.length; i++) {
             allUsernames[i] = tempDoc[i].username;
+            allUserIDs[i] = [tempDoc[i].userID];
         }
 
         setUsernames(allUsernames)
+        setUserIDs(allUserIDs)
 
         return JSON.stringify(allUsernames)
     };
@@ -389,6 +455,7 @@ const styles = StyleSheet.create({
     },
     modalText: {
         color: "white",
+        marginTop: '5%'
     },
     input: {
         textAlign: "center",
