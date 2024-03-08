@@ -185,8 +185,7 @@ const Settings = () => {
         return (
             <View style={[{width: '100%', marginTop: '10%'}]}>
                 {nameOfFriends.map((item: string, index: number) => (
-                    // <Text style={[{color: 'white'}]} key={index}>{item}</Text>
-                    <AddFriendsContainer index={index} item={item}/>
+                    <AddFriendsContainer key={index} index={index} item={item}/>
                 ))}
             </View>
         );
