@@ -1,9 +1,13 @@
-
 export type ChooseAnalyseDay = {
     ChooseAnalyseDay: undefined;
     PushAnalyse: undefined;
     PullAnalyse: undefined;
     LegAnalyse: undefined;
+}
+
+export type navigateToAnalyseScreen = {
+    PullAnalyse: undefined
+    ShowPullAnalyse: undefined
 }
 
 export type ChooseTrainingsDay = {

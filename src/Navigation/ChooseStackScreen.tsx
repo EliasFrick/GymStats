@@ -15,6 +15,7 @@ import Login from "../Screens/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import Settings from "../Screens/Settings/Settings";
 import BodyweightAnalyse from "../Screens/BodyweightAnalyse";
+import ShowPullAnalyse from "../Screens/TrainingWeight/TrainingsTage/Pull/ShowPullAnalyse";
 
 const Stack = createStackNavigator();
 
@@ -33,7 +34,7 @@ export default function ChooseAnalyseDayScreen() {
       />
       <Stack.Screen
         name="PullAnalyse"
-        component={PullAnalyse}
+        component={ShowPullAnalyseScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -121,4 +122,56 @@ export function TBodyweightAnalysePage() {
       />
     </Stack.Navigator>
   );
+}
+
+export function ShowPushAnalyseScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={"PullAnalyseScreen"}
+                component={PushAnalyse}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={"PushAnalyseScreen"}
+                component={ShowPullAnalyse}
+                options={{ headerShown: false }}
+            />
+        </Stack.Navigator>
+    );
+}
+
+export function ShowPullAnalyseScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={"PullAnalyseScreen"}
+                component={PullAnalyse}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={"ShowPullAnalyse"}
+                component={ShowPullAnalyse}
+                options={{ headerShown: false }}
+            />
+        </Stack.Navigator>
+    );
+}
+
+
+export function ShowLegAnalyseScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={"PullAnalyseScreen"}
+                component={LegAnalyse}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={"PushAnalyseScreen"}
+                component={ShowPullAnalyse}
+                options={{ headerShown: false }}
+            />
+        </Stack.Navigator>
+    );
 }
