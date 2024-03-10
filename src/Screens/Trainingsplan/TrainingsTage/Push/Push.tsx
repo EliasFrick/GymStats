@@ -163,6 +163,8 @@ const Push: React.FC<Props> = ({ navigation }) => {
     }
   };
 
+  useEffect(() => {}, [toggleExercise]);
+
   useEffect(() => {
     const userID = firebaseMain.auth().currentUser?.uid;
     //getDataForChart("benchPressActive");
@@ -258,22 +260,26 @@ const Push: React.FC<Props> = ({ navigation }) => {
     }
 
     for (let days = 0; days < dataKg.length; days++) {
-      for (let i = 0; i < dataKg[days].length; i++) {
-        if (!finalData[days] && dataWdh[days][i] >= 8) {
-          finalData[days] = dataKg[days][i];
+      for (let sets = 0; sets < dataKg[days].length; sets++) {
+        if (!finalData[days] && dataWdh[days][sets] >= 8) {
+          finalData[days] = dataKg[days][sets];
         }
-        if (dataWdh[days][i] >= 8 && finalData[days] < dataKg[days][i]) {
-          finalData[days] = dataKg[days][i];
+        if (dataWdh[days][sets] >= 8 && finalData[days] < dataKg[days][sets]) {
+          finalData[days] = dataKg[days][sets];
         }
       }
-      dataForChart[counter] = finalData[days];
-      counter++;
+      if (finalData[days]) {
+        dataForChart[counter] = finalData[days];
+        //console.log(dataForChart);
+        counter++;
+      }
     }
     if (dataForChart.length === 0) {
       console.log("Keine Daten gefunden");
       checkForSingleChartData(testData, currentExercise);
     } else {
       console.log("Daten gefunden");
+      console.log(dataForChart);
       checkForSingleChartData(dataForChart, currentExercise);
     }
   };
@@ -290,7 +296,6 @@ const Push: React.FC<Props> = ({ navigation }) => {
         setInclineBarbellWightData(array);
         break;
       case "inclineDumbbellActive":
-        console.log(array);
         setInclineDumbbellWightData(array);
         break;
       case "flysObenActive":
@@ -303,13 +308,13 @@ const Push: React.FC<Props> = ({ navigation }) => {
         setDipsWightData(array);
         break;
       case "militaryPressActive":
+        console.log(array);
         setMilitaryPressWightData(array);
         break;
       case "shoulderPressActive":
         setShoulderPressWightData(array);
         break;
       case "sideRaiseActive":
-        console.log(array);
         setSideRaiseWightData(array);
         break;
       case "tricepsPushActive":
@@ -325,11 +330,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
   };
 
   const checkForSingleChartData = (array: any, currentExercise: string) => {
-    if (array.length <= 1) {
-      writeDataInChart(testData, currentExercise);
-    } else {
-      writeDataInChart(array, currentExercise);
-    }
+    writeDataInChart(array, currentExercise);
   };
 
   const testData = [0];
@@ -404,7 +405,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.benchPressActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={benchPressWeightData} />
+            <MyLineChart input={benchPressWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Bankdrücken")} />
               <CustomButton
@@ -423,7 +424,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.chestActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={chestPressWeightData} />
+            <MyLineChart input={chestPressWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Brustpresse")} />
               <CustomButton
@@ -442,7 +443,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.inclineBarbellActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={inclineBarbellWeightData} />
+            <MyLineChart input={inclineBarbellWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -464,7 +465,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.inclineDumbbellActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={inclineDumbbellWeightData} />
+            <MyLineChart input={inclineDumbbellWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -486,7 +487,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.flysObenActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={flysObenWeightData} />
+            <MyLineChart input={flysObenWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -508,7 +509,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.flysUntenActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={flysUntenWeightData} />
+            <MyLineChart input={flysUntenWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -530,7 +531,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.dipsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={dipsWeightData} />
+            <MyLineChart input={dipsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Dips")} />
               <CustomButton
@@ -549,7 +550,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.militaryPressActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={militaryPressWeightData} />
+            <MyLineChart input={militaryPressWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -571,7 +572,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.shoulderPressActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={shoulderPressWeightData} />
+            <MyLineChart input={shoulderPressWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -593,7 +594,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.sideRaiseActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={sideRaiseWeightData} />
+            <MyLineChart input={sideRaiseWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Seitheben")} />
               <CustomButton
@@ -612,7 +613,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.tricepsPushActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={tricepsPushWeightData} />
+            <MyLineChart input={tricepsPushWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -634,7 +635,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.katanaExtensionsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={katanaExtensionsWeightData} />
+            <MyLineChart input={katanaExtensionsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -658,7 +659,7 @@ const Push: React.FC<Props> = ({ navigation }) => {
         </View>
         {exercises.TricepsOverHeadActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={tricepsOverHeadWeightData} />
+            <MyLineChart input={tricepsOverHeadWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}

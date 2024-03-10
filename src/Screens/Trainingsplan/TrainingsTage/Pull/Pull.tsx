@@ -414,7 +414,7 @@ export default function Pull() {
         </View>
         {exercises.pullDownActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={pullDownWeightData} />
+            <MyLineChart input={pullDownWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Latzug")} />
               <CustomButton
@@ -433,7 +433,7 @@ export default function Pull() {
         </View>
         {exercises.pullUpActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={pullUpWeightData} />
+            <MyLineChart input={pullUpWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Klimmzüge")} />
               <CustomButton
@@ -452,7 +452,7 @@ export default function Pull() {
         </View>
         {exercises.tbarActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={tBar} />
+            <MyLineChart input={tBar.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("TBar-Row")} />
               <CustomButton
@@ -471,7 +471,7 @@ export default function Pull() {
         </View>
         {exercises.tightRowingActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={tightRowingWeightData} />
+            <MyLineChart input={tightRowingWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -493,7 +493,7 @@ export default function Pull() {
         </View>
         {exercises.barbellRowflysObenActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={barbellRowflysWeightData} />
+            <MyLineChart input={barbellRowflysWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -515,7 +515,7 @@ export default function Pull() {
         </View>
         {exercises.DeadliftActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={deadliftWeightData} />
+            <MyLineChart input={deadliftWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Kreuzheben")} />
               <CustomButton
@@ -534,7 +534,7 @@ export default function Pull() {
         </View>
         {exercises.highRowActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={highRowData} />
+            <MyLineChart input={highRowData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("High Row")} />
               <CustomButton
@@ -553,7 +553,7 @@ export default function Pull() {
         </View>
         {exercises.facePullsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={facePullsWeightData} />
+            <MyLineChart input={facePullsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Face Pulls")} />
               <CustomButton
@@ -572,7 +572,7 @@ export default function Pull() {
         </View>
         {exercises.reverseFlysActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={reverseFlys} />
+            <MyLineChart input={reverseFlys.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -594,7 +594,7 @@ export default function Pull() {
         </View>
         {exercises.pullOverActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={pullOverWeightData} />
+            <MyLineChart input={pullOverWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("Überzüge")} />
               <CustomButton
@@ -613,7 +613,7 @@ export default function Pull() {
         </View>
         {exercises.szCurlsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={szCurlsWeightData} />
+            <MyLineChart input={szCurlsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton title={"+"} onPress={() => addSet("SZ Curls")} />
               <CustomButton
@@ -632,7 +632,7 @@ export default function Pull() {
         </View>
         {exercises.preacherCurlsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={preacherCurlsWeightData} />
+            <MyLineChart input={preacherCurlsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -654,7 +654,7 @@ export default function Pull() {
         </View>
         {exercises.faceAwayCurlsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={faceAwayCurlsWeightData} />
+            <MyLineChart input={faceAwayCurlsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -676,7 +676,7 @@ export default function Pull() {
         </View>
         {exercises.spiderCurlsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={spiderCurlsWeightData} />
+            <MyLineChart input={spiderCurlsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -698,7 +698,7 @@ export default function Pull() {
         </View>
         {exercises.hammerCurlsActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={hammerCurlsWeightData} />
+            <MyLineChart input={hammerCurlsWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -720,7 +720,7 @@ export default function Pull() {
         </View>
         {exercises.underamCurlsInsideActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={underamCurlsInsideWeightData} />
+            <MyLineChart input={underamCurlsInsideWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
@@ -744,7 +744,7 @@ export default function Pull() {
         </View>
         {exercises.underamCurlsOutsideActive && (
           <View style={[styles.lineChart, { height: height * 0.35 }]}>
-            <MyLineChart input={underamCurlsOutsideWeightData} />
+            <MyLineChart input={underamCurlsOutsideWeightData.map(Number)} />
             <View style={[styles.addButton, { height: height * 0.05 }]}>
               <CustomButton
                 title={"+"}
