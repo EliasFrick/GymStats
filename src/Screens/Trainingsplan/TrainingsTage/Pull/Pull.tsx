@@ -246,22 +246,26 @@ export default function Pull() {
     }
 
     for (let days = 0; days < dataKg.length; days++) {
-      for (let i = 0; i < dataKg[days].length; i++) {
-        if (!finalData[days] && dataWdh[days][i] >= 8) {
-          finalData[days] = dataKg[days][i];
+      for (let sets = 0; sets < dataKg[days].length; sets++) {
+        if (!finalData[days] && dataWdh[days][sets] >= 8) {
+          finalData[days] = dataKg[days][sets];
         }
-        if (dataWdh[days][i] >= 8 && finalData[days] < dataKg[days][i]) {
-          finalData[days] = dataKg[days][i];
+        if (dataWdh[days][sets] >= 8 && finalData[days] < dataKg[days][sets]) {
+          finalData[days] = dataKg[days][sets];
         }
       }
-      dataForChart[counter] = finalData[days];
-      counter++;
+      if (finalData[days]) {
+        dataForChart[counter] = finalData[days];
+        //console.log(dataForChart);
+        counter++;
+      }
     }
     if (dataForChart.length === 0) {
       console.log("Keine Daten gefunden");
       checkForSingleChartData(testData, currentExercise);
     } else {
       console.log("Daten gefunden");
+      console.log(dataForChart);
       checkForSingleChartData(dataForChart, currentExercise);
     }
   };
@@ -374,11 +378,7 @@ export default function Pull() {
   };
 
   const checkForSingleChartData = (array: any, currentExercise: string) => {
-    if (array.length <= 1) {
-      writeDataInChart(testData, currentExercise);
-    } else {
-      writeDataInChart(array, currentExercise);
-    }
+    writeDataInChart(array, currentExercise);
   };
 
   const handleKgInput = (text: string, currentSet: number) => {
