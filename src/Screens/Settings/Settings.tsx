@@ -54,6 +54,7 @@ const Settings = () => {
     const [existingFriendRequests, setExistingFriendRequests] = useState<any>([])
     const [allPossibleUsernames, setAllPossibleUsernames] = useState<any>('')
     const [showPossibleFriendsForAdding, setShowPossibleFriendsForAdding] = useState(false)
+    const [showNotifications, setShowNotifications] = useState(false)
 
     useEffect(() => {
         getAllUsernames()
@@ -159,12 +160,23 @@ const Settings = () => {
         setSearchForFriendModalVisible(false);
     };
 
+    const cancelShowNotifications = () => {
+        setShowNotifications(false);
+    };
+
     const searchForFriend = () => {
         setAllPossibleUsernames(checkForFriend(Usernames))
     };
 
+    const getFriendRequestList = () => {
+        setExistingFriendRequests(searchFriendRequestList(Usernames))
+    }
+
+    const searchFriendRequestList = (name: string) => {
+        return ''
+    }
+
     const checkForFriend = (name: any) => {
-        let foundFriend = false
         const possibleNames: any[] = [];
 
         for (let i = 0; i < name.length; i++) {
@@ -325,6 +337,11 @@ const Settings = () => {
         }
     }, [allPossibleUsernames]);
 
+    const showNotification = () => {
+        alert("Test")
+        setShowNotifications(true)
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
@@ -332,11 +349,19 @@ const Settings = () => {
                     Einstellungen
                 </Text>
             </View>
-            <View style={styles.addFriendContainer}>
-                <Pressable onPress={addFriends}>
-                    <Ionicons name={"person-add"} size={30} color={'grey'}/>
-                </Pressable>
+            <View style={styles.iconContainer}>
+                <View style={styles.notificationIconContainer}>
+                    <Pressable onPress={showNotification}>
+                        <Ionicons name={"notifications-outline"} size={30} color={'grey'}/>
+                    </Pressable>
+                </View>
+                <View style={styles.addFriendContainer}>
+                    <Pressable onPress={addFriends}>
+                        <Ionicons name={"person-add"} size={30} color={'grey'}/>
+                    </Pressable>
+                </View>
             </View>
+
             <View
                 style={[
                     styles.buttonContainer,
@@ -422,6 +447,28 @@ const Settings = () => {
                     </View>
                 </View>
             </Modal>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showNotifications}
+                onRequestClose={() => {
+                    setShowNotifications(false);
+                }}
+            >
+                <View style={[styles.modalContainer]}>
+                    <Pressable onPress={() => {
+                        Keyboard.dismiss()
+                    }}>
+                        <Text style={[styles.modalText, {fontSize: fontScale * 30}]}>
+                            Benachrichtigungen
+                        </Text>
+                    </Pressable>
+                    <ScrollView>
+                        <ShowPossibleFriendsForAdding nameOfFriends={existingFriendRequests}/>
+                    </ScrollView>
+                    <CustomButton title="Abbrechen" onPress={cancelShowNotifications}/>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -468,7 +515,6 @@ const styles = StyleSheet.create({
         marginTop: '2%'
     },
     addFriendContainer: {
-        justifyContent: 'flex-start',
         alignItems: 'flex-end',
     },
     textForPossibleFriendsForAdding: {
@@ -492,5 +538,13 @@ const styles = StyleSheet.create({
     addFriendListInnerContainer: {
         flexDirection: 'row',
         paddingHorizontal: 20
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    notificationIconContainer: {
+        alignItems: 'center',
     }
 });
