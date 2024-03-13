@@ -16,6 +16,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Settings from "../Screens/Settings/Settings";
 import BodyweightAnalyse from "../Screens/BodyweightAnalyse";
 import ShowPullAnalyse from "../Screens/TrainingWeight/TrainingsTage/Pull/ShowPullAnalyse";
+import ShowPushAnalyse from "../Screens/TrainingWeight/TrainingsTage/Push/ShowPushAnalyse";
 
 const Stack = createStackNavigator();
 
@@ -29,7 +30,7 @@ export default function ChooseAnalyseDayScreen() {
       />
       <Stack.Screen
         name="PushAnalyse"
-        component={PushAnalyse}
+        component={ShowPushAnalyseScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -128,13 +129,13 @@ export function ShowPushAnalyseScreen() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={"PullAnalyseScreen"}
+                name={"PushAnalyseScreen"}
                 component={PushAnalyse}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name={"PushAnalyseScreen"}
-                component={ShowPullAnalyse}
+                name={"ShowPushAnalyse"}
+                component={ShowPushAnalyse}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
@@ -163,12 +164,12 @@ export function ShowLegAnalyseScreen() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={"PullAnalyseScreen"}
+                name={"LegAnalyseScreen"}
                 component={LegAnalyse}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name={"PushAnalyseScreen"}
+                name={"LegAnalyseScreen"}
                 component={ShowPullAnalyse}
                 options={{ headerShown: false }}
             />

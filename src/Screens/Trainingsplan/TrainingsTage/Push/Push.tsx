@@ -67,17 +67,9 @@ const Push: React.FC<Props> = ({ navigation }) => {
   });
   const [currentTimeStamp, setCurrentTimeStamp] = useState<any>();
   const {
-    loggedIn,
-    email,
-    age,
     username,
-    setLoggedIn,
-    setAge,
-    setUsername,
-    setEmail,
   } = useMyLoginContext();
   const todoRefForUser = firebasePush.firestore().collection(username);
-  // const fetchTodoRefForUser = firebasePush.firestore().collection(username).doc(currentExercise).collection(currentExercise);
   const [benchPressWeightData, setBenchPressWightData] = useState<any>([0]);
   const [chestPressWeightData, setChestPressWightData] = useState<any>([0]);
   const [inclineBarbellWeightData, setInclineBarbellWightData] = useState<any>([
@@ -163,11 +155,8 @@ const Push: React.FC<Props> = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {}, [toggleExercise]);
-
   useEffect(() => {
     const userID = firebaseMain.auth().currentUser?.uid;
-    //getDataForChart("benchPressActive");
     checkInternetConnection();
   }, []);
 
@@ -191,9 +180,9 @@ const Push: React.FC<Props> = ({ navigation }) => {
       case "inclineDumbbellActive":
         return "Schrägbankdrücken Kurzhantel";
       case "flysObenActive":
-        return "Flys von oben";
+        return "Flys von Oben";
       case "flysUntenActive":
-        return "Flys von unten";
+        return "Flys von Unten";
       case "dipsActive":
         return "Dips";
       case "militaryPressActive":
@@ -223,6 +212,8 @@ const Push: React.FC<Props> = ({ navigation }) => {
     const tempDoc = querySnapshot.docs.map((doc: any) => {
       return { id: doc.id, ...doc.data() };
     });
+
+    console.log(tempDoc)
 
     for (let i = 0; i < tempDoc.length; i++) {
       getDataKg[i] = [];

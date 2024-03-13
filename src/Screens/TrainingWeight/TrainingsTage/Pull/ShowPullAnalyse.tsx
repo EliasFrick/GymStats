@@ -28,16 +28,19 @@ const ShowPullAnalyse: React.FC<getParam> = ({ route, navigation }) => {
   useEffect(() => {
     const { exerciseName } = route.params;
     setExerciseNameTitle(exerciseName);
-    getDataForChart();
+    getDataForChartOne(username);
+    getDataForChartOne('NewElias');
+    // setUserOneChartData(getDataForChartOne(username))
+    // setUserTwoChartData(getDataForChartOne(''))
   }, [exerciseNameTitle]);
 
   const fetchDBData: any = [];
 
-  const getDataForChart = async () => {
+  const getDataForChartOne = async (nameOfUser: string) => {
     if (exerciseNameTitle != null) {
       const querySnapshot = await firebasePull
         .firestore()
-        .collection(username)
+        .collection(nameOfUser)
         .doc(exerciseNameTitle)
         .collection(exerciseNameTitle)
         .orderBy("timestampField", "asc")
@@ -52,8 +55,13 @@ const ShowPullAnalyse: React.FC<getParam> = ({ route, navigation }) => {
       }
       if (fetchDBData) {
         //console.log(fetchDBData);
-        showResultForOneRepMax(fetchDBData);
-        setUserOneChartData(showResultForOneRepMax(fetchDBData));
+        // showResultForOneRepMax(fetchDBData);
+        if (nameOfUser === username) {
+          setUserOneChartData(showResultForOneRepMax(fetchDBData))
+        } else {
+          setUserTwoChartData(showResultForOneRepMax(fetchDBData))
+        }
+        // setUserOneChartData(showResultForOneRepMax(fetchDBData));
       } else {
         console.log("data nicht vorhanden");
       }
@@ -95,7 +103,7 @@ const ShowPullAnalyse: React.FC<getParam> = ({ route, navigation }) => {
                   strokeWidth: 3,
                 },
                 {
-                  data: [Number(70), 50],
+                  data: userTwoChartData.map(Number),
                   color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
                   strokeWidth: 3,
                 },

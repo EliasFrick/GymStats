@@ -45,7 +45,7 @@ export default function WeightInput() {
     } = useMyContext();
     const {height, width, scale, fontScale} = useWindowDimensions();
 
-    const updateDecimalValue = (newValue: string) => {
+    const updateDecimalValue = async (newValue: string) => {
         console.log("Add a Point");
         const replacedValue = newValue.replace(/,/g, ".");
         setDecimalValue(replacedValue);
@@ -66,7 +66,7 @@ export default function WeightInput() {
     useEffect(() => {
         const userID = firebaseMain.auth().currentUser?.uid;
 
-        activateTestMode();
+        // activateTestMode();
 
         checkInternetConnection();
         if (selected === "Aufbau") {
@@ -99,20 +99,30 @@ export default function WeightInput() {
         setTest(true);
     };
 
-    const addField = () => {
+    const addField = async () => {
         let databaseValue = "";
         if (decimalValue.indexOf(",") !== -1) {
-            updateDecimalValue(decimalValue);
-            databaseValue = updateDecimalValue(decimalValue);
-            console.log("if: " + finalDecimalValue);
+            await updateDecimalValue(decimalValue);
+            databaseValue = await updateDecimalValue(decimalValue);
+            const updatedValue = await updateDecimalValue(decimalValue);
+
+            if (updatedValue) {
+                databaseValue = updatedValue;
+                safeWeightInDatabase(databaseValue);
+            } else {
+                console.log("Fehler beim Aktualisieren von updateDecimalValue");
+            }
         } else {
             setFinalDecimalValue(decimalValue);
             databaseValue = decimalValue;
-            console.log("else: " + finalDecimalValue);
+            safeWeightInDatabase(databaseValue)
         }
-        console.log("finalValue: " + databaseValue);
+    };
+
+    const safeWeightInDatabase = (databaseValue: string) => {
         if (checkConnection) {
-            if (finalDecimalValue) {
+            console.log(databaseValue)
+            if (databaseValue) {
                 const currentDate = new Date();
                 const currentYear = currentDate.getFullYear();
                 const currentMonth = currentDate.getMonth() + 1;
@@ -157,6 +167,7 @@ export default function WeightInput() {
                     });
                     checkTimeStampField();
                 } else if (test) {
+                    console.log("Test: " + test)
                     setCurrentTimeStamp(data.timestampField);
                     todoRefForTest.add(data).then(() => {
                         setAddWeight(0);
@@ -173,7 +184,7 @@ export default function WeightInput() {
             ToastMessage("Keine Internetverbindung später nochmal versuchen");
             setDotForWeight(true);
         }
-    };
+    }
 
     const fetchData: any = [];
     const testCheck: any = [];

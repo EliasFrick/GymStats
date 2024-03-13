@@ -27,10 +27,10 @@ import PreacherCurls from "../../../../assets/PreacherCurls.png";
 import FaceawayCurls from "../../../../assets/FaceAwayCurls.png";
 import SpiderCurls from "../../../../assets/SpiderCurls.png";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { navigateToAnalyseScreen } from "../../../../Types/StackScreens";
+import { navigateToPullAnalyseScreen } from "../../../../Types/StackScreens";
 
 type ChooseBlogScreen = StackNavigationProp<
-  navigateToAnalyseScreen,
+    navigateToPullAnalyseScreen,
   "PullAnalyse"
 >;
 

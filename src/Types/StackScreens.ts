@@ -5,9 +5,19 @@ export type ChooseAnalyseDay = {
     LegAnalyse: undefined;
 }
 
-export type navigateToAnalyseScreen = {
+export type navigateToPullAnalyseScreen = {
     PullAnalyse: undefined
     ShowPullAnalyse: undefined
+}
+
+export type navigateToPushAnalyseScreen = {
+    PushAnalyse: undefined
+    ShowPushAnalyse: undefined
+}
+
+export type navigateToLegAnalyseScreen = {
+    LegAnalyse: undefined
+    ShowLegAnalyse: undefined
 }
 
 export type ChooseTrainingsDay = {
